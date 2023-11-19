@@ -1,0 +1,51 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'vendor/bootstrap/css/bootstrap.css' %}">
+    <link rel="stylesheet" href="{% static 'css/login.css' %}">
+
+    <!-- Add additional CSS files or stylesheets here -->
+    <title>{{ title }}</title>
+</head>
+
+<body class="bg-primary text-white">
+    <header class="text-center">
+        <h1>login</h1>
+    </header>
+
+    <!-- form start -->
+    <div class="container-fluid bg-light p-4 text-dark">
+        <div class="container">
+            <form action="" method="post">
+                {% csrf_token %}
+                <div class="row">
+                    <label for="">Email</label>
+                    <input class="form-control" type="email" name="" id="">
+                </div>
+                <div class="row">
+                    <label for="">Password</label>
+                    <input type="password" class="form-control" name="" id="">
+                </div>
+                <div class="row text-center mt-2">
+                    <button type="submit" class="btn btn-primary">Login</button>
+                </div>
+
+            </form>
+        </div>
+
+    </div>
+
+
+    <!-- form end -->
+
+
+    <!-- Add additional scripts or JavaScript files here -->
+    <script src="{% static 'vendor/bootstrap/js/bootstrap.js' %}"></script>
+</body>
+
+</html>
