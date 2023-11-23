@@ -1,14 +1,31 @@
 <?php
 include("koneksi.php");
+
+class UserManager
+{
+    private $conn;
+
+    public function __construct($conn)
+    {
+        $this->conn = $conn;
+    }
+
+    public function getUserByUsername($username)
+    {
+        $query = mysqli_query($this->conn, "SELECT * FROM user WHERE username = '$username'") or die(mysqli_error($this->conn));
+        return mysqli_fetch_array($query);
+    }
+}
+
 if (isset($_POST['signin'])) {
     $yourname = $_POST['your_name'];
     $yourpass = $_POST['your_pass'];
 
-    $query = mysqli_query($conn, "SELECT * FROM user WHERE username = '$yourname'") or die(mysqli_error($con));
-    $data = mysqli_fetch_array($query);
-    $ai = mysqli_num_rows($query);
-    if ($ai == 1) {
-        if (password_verify($yourpass, $data["password"])) {
+    $userManager = new UserManager($conn);
+    $userData = $userManager->getUserByUsername($yourname);
+
+    if ($userData) {
+        if (password_verify($yourpass, $userData["password"])) {
             header("location:tiket/index.php");
         } else {
             header("location:login.php?pesan=password salah");

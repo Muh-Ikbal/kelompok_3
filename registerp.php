@@ -1,13 +1,33 @@
 <?php
 include("koneksi.php");
+
+class UserManager
+{
+    private $conn;
+
+    public function __construct($conn)
+    {
+        $this->conn = $conn;
+    }
+
+    public function createUser($username, $password, $fullname)
+    {
+        $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
+
+        $sql = "INSERT INTO user (username, password, fullname) VALUES ('$username', '$hashedPassword', '$fullname')";
+        $result = mysqli_query($this->conn, $sql);
+
+        return $result;
+    }
+}
+
 if (isset($_POST['signup']) && $_POST['signup'] == 'Register') {
     $fname = $_POST['fname'];
     $uname = $_POST['uname'];
-    $pass = password_hash($_POST['pass'], PASSWORD_BCRYPT);
 
-    $sql = "INSERT INTO user (id_user,username, password, fullname) VALUES ('','$uname', '$pass', '$fname')";
+    $userManager = new UserManager($conn);
+    $result = $userManager->createUser($uname, $_POST['pass'], $fname);
 
-    $result = mysqli_query($conn, $sql);
     if ($result) {
         echo "<script>window.alert('Selamat, Akun anda berhasil dibuat'); window.location.href='login.php';</script>";
     } else {
