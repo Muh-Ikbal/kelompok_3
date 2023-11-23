@@ -12,13 +12,13 @@
     
     if(isset($_GET["edit"])){
         $id_kapal=$_GET["edit"];
-        $query=mysqli_query($konek,"SELECT * FROM tb_jadwal WHERE id_kapal='$id_kapal'");
+        $query=mysqli_query($conn,"SELECT * FROM tb_jadwal WHERE id_kapal='$id_kapal'");
         $data=mysqli_fetch_array($query);
         $nama_kapal=$data["nama_kapal"];
         $muatan=$data["muatan"];
         $tujuan=$data["tujuan"];
         $harga=$data["harga"];
-        $gambar=$data["gambar"];
+        $gambar=$data["kapal"];
     }
 ?>
 <head>
