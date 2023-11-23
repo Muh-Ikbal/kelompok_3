@@ -1,52 +1,100 @@
 <?php
-    include "koneksi.php";
+include "koneksi.php";
+class JadwalManager
+{
+    private $conn;
 
-    if(isset($_POST['btnProses'])){
-        $nama_kapal = $_POST["nama_kapal"];
-        $muatan = $_POST["muatan"];
-        $tujuan = $_POST["tujuan"];
-        $harga = $_POST["harga"];
+    public $nama_kapal;
+    public $muatan;
+    public $tujuan;
+    public $harga;
+    public $gambar;
 
-        if($_POST['btnProses']=='tambah'){
-        $gambar = $_FILES["gambar"]["name"];
-        $gambar_tmp = $_FILES["gambar"]["tmp_name"];
-        move_uploaded_file($gambar_tmp,"gambar/".$gambar);
-        
-        $query="INSERT INTO tb_jadwal (`id_kapal`, `nama_kapal`, `muatan`, `tujuan`, `harga`, `kapal`) 
-        VALUES (NULL, '$nama_kapal', '$muatan', '$tujuan', '$harga', '$gambar')";
-        $sql=mysqli_query($conn,$query);
-
-        if($sql){
-            header("location:jadwal.php");
-        }
-        }else{
-            if($_FILES['gambar']['name']!=""){
-                $query=mysqli_query( $conn,"SELECT * FROM tb_jadwal WHERE `id_kapal` = '$_POST[id]'");
-                $data=mysqli_fetch_array($query);
-                unlink("gambar/". $data["name"]);
-
-                $gambar = $_FILES["gambar"]["name"];
-                $gambar_tmp = $_FILES["gambar"]["tmp_name"];
-                move_uploaded_file($gambar_tmp,"gambar/".$gambar);
-
-                mysqli_query( $conn,"UPDATE `tb_jadwal` SET nama_kapal = '$nama_kapal', muatan = '$muatan', tujuan = '$tujuan', `harga` = '$harga', kapal = '$gambar' WHERE `id_kapal` = '$_POST[id_kapal]'");
-                header("location:jadwal.php");
-            }else{
-                mysqli_query( $conn,"UPDATE `tb_jadwal` SET nama_kapal = '$nama_kapal', muatan = '$muatan', tujuan = '$tujuan', `harga` = '$harga' WHERE `id_kapal` = '$_POST[id_kapal]'");
-                header("location:jadwal.php");
-            }
-        }
-    }elseif(isset($_GET["hapus"])){
-        $querihapus="SELECT kapal FROM tb_jadwal WHERE `id_kapal` = $_GET[hapus]";
-        $sqlhapus=mysqli_query($conn,$querihapus);
-        $data=mysqli_fetch_array($sqlhapus);
-        unlink("gambar/". $data["kapal"]);
-    
-        $query="DELETE FROM tb_jadwal WHERE id_kapal = $_GET[hapus]";
-        $sql=mysqli_query($conn,$query);
-        if($sql){
-            header("location:jadwal.php");
-        }
+    public function __construct($conn)
+    {
+        $this->conn = $conn;
     }
 
-?>
+    public function setAttributes($nama_kapal, $muatan, $tujuan, $harga, $gambar)
+    {
+        $this->nama_kapal = $nama_kapal;
+        $this->muatan = $muatan;
+        $this->tujuan = $tujuan;
+        $this->harga = $harga;
+        $this->gambar = $gambar;
+    }
+
+    public function tambahJadwal()
+    {
+        $gambar_tmp = $this->gambar["tmp_name"];
+        move_uploaded_file($gambar_tmp, "gambar/" . $this->gambar["name"]);
+        
+        $gambar = $this->gambar['name'];
+        $query = "INSERT INTO tb_jadwal (`id_kapal`, `nama_kapal`, `muatan`, `tujuan`, `harga`, `kapal`) VALUES (NULL, '$this->nama_kapal', '$this->muatan', '$this->tujuan', '$this->harga', '$gambar')";
+        $sql = mysqli_query($this->conn, $query);
+
+        return $sql;
+    }
+
+    public function updateJadwal($id_kapal)
+    {
+        if ($this->gambar['name'] != "") {
+            $query = "SELECT * FROM tb_jadwal WHERE `id_kapal` = '$id_kapal'";
+            $result = mysqli_query($this->conn, $query);
+            $data = mysqli_fetch_array($result);
+            unlink("gambar/" . $data["kapal"]);
+
+            $gambar_tmp = $this->gambar["tmp_name"];
+            move_uploaded_file($gambar_tmp, "gambar/" . $this->gambar["name"]);
+
+            $query = "UPDATE `tb_jadwal` SET nama_kapal = '$this->nama_kapal', muatan = '$this->muatan', 
+                tujuan = '$this->tujuan', `harga` = '$this->harga', kapal = '$this->gambar' WHERE `id_kapal` = '$id_kapal'";
+        } else {
+            $query = "UPDATE `tb_jadwal` SET nama_kapal = '$this->nama_kapal', muatan = '$this->muatan', 
+                tujuan = '$this->tujuan', `harga` = '$this->harga' WHERE `id_kapal` = '$id_kapal'";
+        }
+
+        $sql = mysqli_query($this->conn, $query);
+        return $sql;
+    }
+
+    public function hapusJadwal($id_kapal)
+    {
+        $query_hapus = "SELECT kapal FROM tb_jadwal WHERE `id_kapal` = '$id_kapal'";
+        $sql_hapus = mysqli_query($this->conn, $query_hapus);
+        $data = mysqli_fetch_array($sql_hapus);
+        unlink("gambar/" . $data["kapal"]);
+
+        $query = "DELETE FROM tb_jadwal WHERE id_kapal = '$id_kapal'";
+        $sql = mysqli_query($this->conn, $query);
+
+        return $sql;
+    }
+}
+
+// Example usage:
+$jadwalManager = new JadwalManager($conn);
+
+if (isset($_POST['btnProses'])) {
+    $nama_kapal = $_POST["nama_kapal"];
+    $muatan = $_POST["muatan"];
+    $tujuan = $_POST["tujuan"];
+    $harga = $_POST["harga"];
+    $jadwalManager->setAttributes($nama_kapal, $muatan, $tujuan, $harga, $_FILES["gambar"]);
+
+    if ($_POST['btnProses'] == 'tambah') {
+        $result = $jadwalManager->tambahJadwal();
+    } else {
+        $result = $jadwalManager->updateJadwal($_POST['id_kapal']);
+    }
+
+    if ($result) {
+        header("location:jadwal.php");
+    }
+} elseif (isset($_GET["hapus"])) {
+    $result = $jadwalManager->hapusJadwal($_GET["hapus"]);
+
+    if ($result) {
+        header("location:jadwal.php");
+    }
+}

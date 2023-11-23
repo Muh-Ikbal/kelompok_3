@@ -3,7 +3,7 @@ include("koneksi.php");
 
 class UserManager
 {
-    private $conn;
+    public $conn;
     private $password; // private property
 
     public $username; // public property
