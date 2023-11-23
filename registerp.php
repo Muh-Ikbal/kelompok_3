@@ -21,7 +21,7 @@ class UserManager
     {
         $hashedPassword = password_hash($this->password, PASSWORD_BCRYPT);
 
-        $sql = "INSERT INTO user (username, password, fullname) VALUES ('$this->username', '$hashedPassword', '$this->fullname')";
+        $sql = "INSERT INTO tb_user (username, password, fullname) VALUES ('$this->username', '$hashedPassword', '$this->fullname')";
         $result = mysqli_query($this->conn, $sql);
 
         return $result;

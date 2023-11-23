@@ -38,7 +38,7 @@
             </thead>
             <tbody>
                 <?php 
-                $sql = mysqli_query($conn,"SELECT * FROM user");
+                $sql = mysqli_query($conn,"SELECT * FROM tb_user");
                 $no = 1;
                 while ($row = mysqli_fetch_array($sql)) {
                 ?>

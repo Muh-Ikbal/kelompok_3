@@ -12,7 +12,7 @@ class UserManager
 
     public function getUserByUsername($username)
     {
-        $query = mysqli_query($this->conn, "SELECT * FROM user WHERE username = '$username'") or die(mysqli_error($this->conn));
+        $query = mysqli_query($this->conn, "SELECT * FROM tb_user WHERE username = '$username'") or die(mysqli_error($this->conn));
         return mysqli_fetch_array($query);
     }
 }
