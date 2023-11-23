@@ -70,7 +70,12 @@ if (isset($_GET["edit"])) {
             <div class="mb-3 row">
                 <label for="tujuan" class="col-sm-2 col-form-label">Tujuan</label>
                 <div class="col-sm-10">
-                    <input type="text" class="form-control" id="tujuan" name="tujuan" value="<?php echo $tujuan ?>">
+                    <select name="tujuan" id="tujuan" class="form-control">
+                        <option value="buton" <?php if ($tujuan == "buton") echo "selected" ?>>buton</option>
+                        <option value="raha" <?php if ($tujuan == "raha") echo "selected" ?>>raha</option>
+                        <option value="wakatobi" <?php if ($tujuan == "wakatobi") echo "selected" ?>>wakatobi</option>
+                        <option value="konawe kepulauan" <?php if ($tujuan == "konawe kepulauan") echo "selected" ?>>konawe kepulauan</option>
+                    </select>
                 </div>
             </div>
             <div class="mb-3 row">

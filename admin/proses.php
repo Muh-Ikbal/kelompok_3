@@ -47,8 +47,9 @@ class JadwalManager
             $gambar_tmp = $this->gambar["tmp_name"];
             move_uploaded_file($gambar_tmp, "gambar/" . $this->gambar["name"]);
 
+            $gambar = $this->gambar['name'];
             $query = "UPDATE `tb_jadwal` SET nama_kapal = '$this->nama_kapal', muatan = '$this->muatan', 
-                tujuan = '$this->tujuan', `harga` = '$this->harga', kapal = '$this->gambar' WHERE `id_kapal` = '$id_kapal'";
+                tujuan = '$this->tujuan', `harga` = '$this->harga', kapal = '$gambar' WHERE `id_kapal` = '$id_kapal'";
         } else {
             $query = "UPDATE `tb_jadwal` SET nama_kapal = '$this->nama_kapal', muatan = '$this->muatan', 
                 tujuan = '$this->tujuan', `harga` = '$this->harga' WHERE `id_kapal` = '$id_kapal'";

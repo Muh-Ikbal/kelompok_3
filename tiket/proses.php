@@ -1,12 +1,12 @@
 <?php
 $con = mysqli_connect("localhost", "root", "", "db_kapal");
 
-$tiket=$_POST['tiket'];
+$tiket = $_POST['tiket'];
 $nama = $_POST['nama'];
 $berangkat = $_POST['berangkat'];
-$kursi=$_POST['kursi'];
+$kursi = $_POST['kursi'];
 $tujuan = $_POST['tujuan'];
-$harga=$_POST['harga'];
+$harga = $_POST['harga'];
 $Ttiket = $_POST['Ttiket'];
 
 $id_user = $_SESSION['id_user'];
@@ -23,4 +23,3 @@ if (mysqli_query($con, $insertQuery)) {
 
 // Tutup koneksi ke database
 mysqli_close($con);
-?>
