@@ -1,9 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <?php
-include("session.php");
+include("koneksi.php");
 ?>
-
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -20,43 +19,8 @@ include("session.php");
       justify-content: center;
       color: white;
     }
+    </style>
 
-    .overlay {
-      background: rgba(0, 0, 0, 0.5);
-      height: 100vh;
-      width: 100%;
-      text-align: center;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-    }
-
-    .overlay h1 {
-      font-size: 3em;
-      color: #fff;
-      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-    }
-
-    .overlay p {
-      font-size: 1.5em;
-      color: #fff;
-    }
-
-    .navbar {
-      background-color: transparent !important;
-      transition: background-color 0.3s ease;
-    }
-
-    .navbar.scrolled {
-      background-color: #007bff !important;
-    }
-
-    .booking {
-      margin-top: 5rem;
-      padding-bottom: 5rem;
-    }
-  </style>
 </head>
 
 <body>

@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <?php
-$con = mysqli_connect("localhost", "root", "", "db_kapal");
-
+include "koneksi.php";
 ?>
 <html lang="en">
 
@@ -11,11 +10,11 @@ $con = mysqli_connect("localhost", "root", "", "db_kapal");
   <title>ONAV</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
-  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="css/dashboard.css" />
 </head>
 
 <body>
-  <section class="background">
+  <section class="background2">
     <nav class="navbar navbar-expand-lg fixed-top bg-body-tertiary">
       <div class="container-fluid container">
         <a class="navbar-brand text-white" href="#">Navbar</a>
@@ -34,9 +33,9 @@ $con = mysqli_connect("localhost", "root", "", "db_kapal");
               </svg>
             </a>
             <?php
-            $sql = "SELECT * FROM tb_user WHERE id_user=1";
+            $sql = 'SELECT * FROM tb_user WHERE username="' . $_SESSION['uname'] . '" ';
             $query = mysqli_query($con, $sql);
-            $data = mysqli_fetch_row($query);
+            $data = mysqli_fetch_array($query);
             ?>
             <ul class="dropdown-menu">
               <li><a class="dropdown-item" href="#">Log Out</a></li>
@@ -44,7 +43,7 @@ $con = mysqli_connect("localhost", "root", "", "db_kapal");
                 <hr class="dropdown-divider" />
               </li>
               <li class="dropdown-item">User
-                <?php echo $data[1] ?>
+                <?php echo $data['username']; ?>
               </li>
             </ul>
           </div>
@@ -52,7 +51,7 @@ $con = mysqli_connect("localhost", "root", "", "db_kapal");
       </div>
     </nav>
 
-    <div class="overlay">
+    <div class="overlay2">
       <h1>Jadwal Pemberangkatan</h1>
     </div>
   </section>
@@ -101,27 +100,22 @@ $con = mysqli_connect("localhost", "root", "", "db_kapal");
   <?php
 
   if (isset($_POST['cari']) && $_POST['cari'] == 'cari') {
-    // Get the selected values from the form
+
     $Tujuan = isset($_POST["tujuan"]) ? $_POST["tujuan"] : null;
     $Kapal = isset($_POST["kapal"]) ? $_POST["kapal"] : null;
 
-    // Fetch the corresponding data from the database
     $sql = "SELECT * FROM tb_jadwal";
 
-    // Check if both Tujuan and Kapal are selected
     if ($Tujuan !== null && $Kapal !== null) {
       $sql .= " WHERE tujuan='$Tujuan' AND kapal='$Kapal'";
     } elseif ($Tujuan !== null) {
-      // Only Tujuan is selected
       $sql .= " WHERE tujuan='$Tujuan'";
     } elseif ($Kapal !== null) {
-      // Only Kapal is selected
       $sql .= " WHERE kapal='$Kapal'";
     }
 
     $query = mysqli_query($con, $sql);
 
-    // Check if there are any results
     if (mysqli_num_rows($query) > 0) {
       echo '<section class="tiket">
             <div class="container-fluid mt-1 mb-3 p-4 bg-light">
@@ -130,11 +124,10 @@ $con = mysqli_connect("localhost", "root", "", "db_kapal");
                         <div class="bg-light shadow p-5">
                             <h4>Selected Ticket Information</h4>';
 
-      // Loop through the results and display each row
       while ($data = mysqli_fetch_array($query)) {
         echo '<div class="row">
                     <div class="col-md-5">
-                        <img src="img/' . $data[1] . '" alt="Ship Image" class="img-fluid" style="width: 220px;height: 220px;margin-top:30px;margin:30px;" />
+                        <img src="images/' . $data[1] . '" alt="Ship Image" class="img-fluid" style="width: 220px;height: 220px;margin-top:30px;margin:30px;" />
                     </div>
                     <div class="col-md-5 " style="margin-top:30px;margin:30px;">
                         <p class="mb-3">Price: ' . $data[4] . '</p>
@@ -157,11 +150,6 @@ $con = mysqli_connect("localhost", "root", "", "db_kapal");
   }
 
   ?>
-
-
-
-
-
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
     crossorigin="anonymous"></script>

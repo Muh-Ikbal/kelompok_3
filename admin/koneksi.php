@@ -1,2 +1,3 @@
 <?php
-$conn = mysqli_connect("localhost","root","","db_kapal_laut");
+$conn = mysqli_connect("localhost","root","","db_kapal");
+?>
