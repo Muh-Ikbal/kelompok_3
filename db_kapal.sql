@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 23 Nov 2023 pada 13.23
+-- Waktu pembuatan: 23 Nov 2023 pada 15.26
 -- Versi server: 10.4.28-MariaDB
 -- Versi PHP: 8.2.4
 
@@ -59,9 +59,8 @@ CREATE TABLE `tb_jadwal` (
 --
 
 INSERT INTO `tb_jadwal` (`id_kapal`, `kapal`, `muatan`, `tujuan`, `harga`, `nama_kapal`) VALUES
-(1, 'kapal2.jpg', 100, 'raha', 100000, ''),
-(2, 'kapal2.jpg', 100, 'kepulauan', 120000, ''),
-(3, 'kapal2.jpg', 100, 'wakatobi', 150000, ''),
+(1, '1.jpg', 100, 'raha', 100000, 'sagoe'),
+(2, 'kapal2.jpg', 100, 'kepulauan', 120000, 'sagoe'),
 (4, 'kapal2.jpg', 100, 'buton', 200000, ''),
 (5, 'kapal3.jpg', 50, 'raha', 80000, ''),
 (6, 'kapal3.jpg', 50, 'kepulauan', 100000, ''),
@@ -69,8 +68,7 @@ INSERT INTO `tb_jadwal` (`id_kapal`, `kapal`, `muatan`, `tujuan`, `harga`, `nama
 (8, 'kapal3.jpg', 50, 'buton', 180000, ''),
 (9, 'kapal.jpg', 150, 'raha', 120000, ''),
 (10, 'kapal.jpg', 150, 'kepulauan', 140000, ''),
-(11, 'kapal.jpg', 150, 'wakatobi', 170000, ''),
-(12, 'kapal.jpg', 150, 'buton', 220000, '');
+(13, '4.jpg', 100, 'kendari', 240000, 'men');
 
 -- --------------------------------------------------------
 
@@ -97,9 +95,19 @@ CREATE TABLE `tb_tiket` (
 
 CREATE TABLE `tb_user` (
   `id_user` int(11) NOT NULL,
+  `fullname` varchar(250) NOT NULL,
   `username` varchar(50) NOT NULL,
-  `password` varchar(15) NOT NULL
+  `password` varchar(250) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data untuk tabel `tb_user`
+--
+
+INSERT INTO `tb_user` (`id_user`, `fullname`, `username`, `password`) VALUES
+(4, 'muh ikbal', 'ikbal', '$2y$10$ttUN447sK66JKoy.EDyyRed.ciFfF4GUj1I81Mrknk5lQrE35SawK'),
+(5, 'ikbal', 'ikbal', '$2y$10$egTRsRJVvvnqVaKT5sTsNeElgQJsXSpsypvCFQdO6SrMJ3CcwG6I.'),
+(6, 'anto', 'anto', '$2y$10$dxHu1DQYi4IAtcbLHHh/8.ZzkGOonH.y3vYRO3eQQN5ZhefRuXvNW');
 
 --
 -- Indexes for dumped tables
@@ -132,7 +140,7 @@ ALTER TABLE `tb_user`
 -- AUTO_INCREMENT untuk tabel `tb_jadwal`
 --
 ALTER TABLE `tb_jadwal`
-  MODIFY `id_kapal` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id_kapal` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT untuk tabel `tb_tiket`
@@ -144,7 +152,7 @@ ALTER TABLE `tb_tiket`
 -- AUTO_INCREMENT untuk tabel `tb_user`
 --
 ALTER TABLE `tb_user`
-  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- Ketidakleluasaan untuk tabel pelimpahan (Dumped Tables)

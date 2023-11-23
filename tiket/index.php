@@ -110,7 +110,7 @@ include "session.php";
       $sql .= " WHERE kapal='$Kapal'";
     }
 
-    $query = mysqli_query($con, $sql);
+    $query = mysqli_query($conn, $sql);
 
     if (mysqli_num_rows($query) > 0) {
       echo '<section class="tiket">
