@@ -1,6 +1,9 @@
 <!doctype html>
 <html lang="en">
-
+  <?php 
+  include("koneksi.php");
+  include "session.php";
+  ?>
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -84,8 +87,15 @@
         <input type="text" class="form-control" disabled id="tiket" name="tiket" value="<?= $res_code; ?>">
       </div>
       <div class="mb-3 mt-3">
+        <?php 
+         $id = $_SESSION['username'];
+         $sql = "SELECT * FROM `tb_user` WHERE username = '$id'";
+         $query = mysqli_query($con, $sql);
+         $data = mysqli_fetch_array($query);
+         
+        ?> 
         <label for="nama" class="form-label">Nama Pembeli</label>
-        <input type="text" class="form-control" id="nama" name="nama" >
+        <input type="text" class="form-control" id="nama" name="nama" disabled value="<?=$data['fullname']?>">
       </div>
       <div class="mb-3 mt-3">
         <label for="berangkat" class="form-label">Tanggal Keberangkatan</label>
@@ -108,16 +118,43 @@
         <input type="number" class="form-control" id="Ttiket" name="Ttiket">
       </div>
       <div class="mb-3 mt-3" >
-        <button type="submit" class="btn btn-primary form-control" style="background-color: #027776; padding: 10px; text-align: center;">Hitung</button>
+        <button type="submit" name="hitung" value="hitung" class="btn btn-primary form-control" style="background-color: #027776; padding: 10px; text-align: center;">Hitung</button>
       </div>
       <div class="mb-3 mt-3">
         <label for="tHarga" class="form-label">Total</label>
         <input type="number" class="form-control" id="tHarga" name="tHarga" >
       </div>
       <div class="mb-3 mt-3">
-        <button type="submit" class="btn btn-primary form-control" style="background-color: #027776; padding: 10px; text-align: center;">Pesan</button>
+        <a href="tiket.php" class="btn btn-primary form-control" style="background-color: #027776; padding: 10px; text-align: center;">Pesan</a>
       </div>
     </form>
+    <?php 
+    session_start();
+    $con = mysqli_connect("localhost", "root", "", "db_kapal");
+    
+    $tiket=$_POST['tiket'];
+    $nama = $_POST['nama'];
+    $berangkat = $_POST['berangkat'];
+    $kursi=$_POST['kursi'];
+    $tujuan = $_POST['tujuan'];
+    $harga=$_POST['harga'];
+    $Ttiket = $_POST['Ttiket'];
+    
+    $id_user = $_SESSION['id_user'];
+    
+    $insertQuery = "INSERT INTO tb_tiket (id_tiket, full_name, tgl_berangkat, tujuan, total_tiket, harga_total, id_user, kode_tiket)
+                    VALUES (NULL, '$nama', '$berangkat', '$tujuan', '$Ttiket', '$tHarga', '$id_user', '$tiket')";
+    
+    // Eksekusi query
+    if (mysqli_query($con, $insertQuery)) {
+      echo "Pemesanan tiket berhasil.";
+    } else {
+      echo "Error: " . mysqli_error($con);
+    }
+    
+    // Tutup koneksi ke database
+    mysqli_close($con);
+    ?>
   </section>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
