@@ -23,11 +23,10 @@ if (isset($_POST['signin'])) {
 
     $userManager = new UserManager($conn);
     $userData = $userManager->getUserByUsername($yourname);
-
     if ($userData) {
         if (password_verify($yourpass, $userData["password"])) {
             session_start();
-            $_SESSION["username"] = $yourname;
+            $_SESSION["username"] = "$yourname";
             header("location:tiket/index.php");
         } else {
             header("location:login.php?pesan=password salah");

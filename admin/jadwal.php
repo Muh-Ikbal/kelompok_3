@@ -16,6 +16,9 @@ include "koneksi.php"
 </head>
 
 <body>
+    <?php
+    include("navbar.php");
+    ?>
     <!-- content start -->
     <div class="img align-middle text-center">
         <img src="gambar/Modern Initial MB Logo.png" alt="gambar" style="height: 150px;">
@@ -72,6 +75,9 @@ include "koneksi.php"
                 }
         ?>
         </table>
+        <?php
+    include("footer.php");
+    ?>
     </div>
     <!-- table end -->
 
