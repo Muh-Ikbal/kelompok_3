@@ -55,7 +55,7 @@ include("koneksi.php");
       <p style="font-family: Brush Script Std; font-size: 21px">
         Pesan tiket hanya dengan 1 klik
       </p>
-      <a href=""><button type="button" class="btn btn-primary">Cari Tiket</button></a>
+      <a href="dashboard.php"><button type="button" class="btn btn-primary">Cari Tiket</button></a>
     </div>
 
   </section>
