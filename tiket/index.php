@@ -126,7 +126,8 @@ include "session.php";
                         <img src="../admin/gambar/' . $data[1] . '" alt="Ship Image" class="img-fluid" style="width: 220px;height: 220px;margin-top:30px;margin:30px;" />
                     </div>
                     <div class="col-md-5 " style="margin-top:30px;margin:30px;">
-                        <p class="mb-3">Price: ' . $data[4] . '</p>
+                        <p class="mb-3">Price: ' . $data[5] . '</p>
+                        <p class="mb-2">Price: ' . $data[4] . '</p>
                         <p class="mb-2">Destination: ' . $data[3] . '</p>
                         <p class="mb-2">Cargo Capacity: ' . $data[2] . '</p>
                     </div>
