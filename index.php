@@ -60,7 +60,7 @@
 </head>
 
 <body>
-  <section class="bg-primary">
+  <section class="bg-primary background">
     <nav class="navbar navbar-expand-lg fixed-top bg-body-tertiary">
       <div class="container-fluid container">
         <a class="navbar-brand text-white" href="#">Navbar</a>

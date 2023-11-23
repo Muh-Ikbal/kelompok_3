@@ -11,7 +11,7 @@ include "session.php";
   <title>ONAV</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
-  <link rel="stylesheet" href="css/dashboard.css" />
+  <link rel="stylesheet" href="../css/dashboard.css" />
 </head>
 
 <body>
@@ -34,8 +34,8 @@ include "session.php";
               </svg>
             </a>
             <?php
-            $sql = 'SELECT * FROM tb_user WHERE username="' . $_SESSION['uname'] . '" ';
-            $query = mysqli_query($con, $sql);
+            $sql = "SELECT * FROM tb_user WHERE username = '$_SESSION[username]'";
+            $query = mysqli_query($conn, $sql);
             $data = mysqli_fetch_array($query);
             ?>
             <ul class="dropdown-menu">
