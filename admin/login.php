@@ -1,5 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
+<?php
+include("koneksi.php");
+session_start();
+if (isset($_SESSION["admin"])) {
+    echo "<script>window.alert('Anda Sudah Sign In !!');window.location.href='index.php';</script>";
+}
+?>
 
 <head>
     <meta charset="UTF-8">
@@ -29,13 +36,13 @@
 
                     <div class="signin-form">
                         <!-- alert start -->
-                        <?php 
-                        if(isset($_GET['pesan'])){
+                        <?php
+                        if (isset($_GET['pesan'])) {
                         ?>
-                        <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                            <strong>Holy guacamole!</strong> <?=$_GET['pesan']?>
-                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                        </div>
+                            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                                <strong>Holy guacamole!</strong> <?= $_GET['pesan'] ?>
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
                         <?php } ?>
                         <!-- alert end -->
                         <h2 class="form-title">Admin Login</h2>

@@ -1,4 +1,6 @@
-<!-- navbar start -->
+<?php
+include("session.php");
+?>
 <nav class="navbar navbar-expand-lg navbar-light bg-primary">
     <div class="container-fluid">
         <a class="navbar-brand " href="#" style="color: aliceblue;">Admin</a>
@@ -16,8 +18,7 @@
                 <li class="nav-item dropdown">
 
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-
-                    </ul>
+                            <li><a class="dropdown-item" href="#">Log Out</a></li>
                 </li>
                 <li class="nav-item">
 

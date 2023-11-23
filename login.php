@@ -1,5 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
+<?php
+include("koneksi.php");
+session_start();
+if (isset($_SESSION["username"])) {
+    echo "<script>window.alert('Anda berhasil masuk!!');window.location.href='tiket/index.php';</script>";
+}
+?>
 
 <head>
     <meta charset="UTF-8">
@@ -7,6 +14,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Sign Up Form by Colorlib</title>
     <!-- booststrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
 
     <!-- Font Icon -->
     <link rel="stylesheet" href="fonts/material-icon/css/material-design-iconic-font.min.css">
@@ -28,6 +36,16 @@
                     </div>
 
                     <div class="signin-form">
+                        <!-- alert start -->
+                        <?php
+                        if (isset($_GET['pesan'])) {
+                        ?>
+                            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                                <strong>Kesalahan login! </strong> <?= $_GET['pesan'] ?>
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                        <?php } ?>
+                        <!-- alert end -->
                         <h2 class="form-title">Sign up</h2>
                         <form action="loginp.php" method="post" class="register-form" id="login-form">
                             <div class="form-group">
@@ -62,6 +80,7 @@
     </div>
 
     <!-- JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
     <script src="vendor/jquery/jquery.min.js"></script>
     <script src="js/main.js"></script>
 
