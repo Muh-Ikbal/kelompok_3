@@ -127,3 +127,21 @@ footer {
  .contact-info i {
   margin-right: 5px;
  }
+
+section.mesan {
+  margin-top: 50px;
+}
+
+.mesan form {
+  background-color: #d8d8d8;
+  max-width: 500px;
+  margin: auto;
+  padding: 20px;
+}
+
+.mesan h6 {
+  font-family: "Roboto", sans-serif;
+  color: #343a40;
+  font-weight: bold;
+  text-transform: uppercase;
+}

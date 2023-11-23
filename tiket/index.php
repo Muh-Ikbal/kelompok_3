@@ -123,7 +123,7 @@ include "session.php";
       while ($data = mysqli_fetch_array($query)) {
         echo '<div class="row">
                     <div class="col-md-5">
-                        <img src="images/' . $data[1] . '" alt="Ship Image" class="img-fluid" style="width: 220px;height: 220px;margin-top:30px;margin:30px;" />
+                        <img src="../admin/gambar/' . $data[1] . '" alt="Ship Image" class="img-fluid" style="width: 220px;height: 220px;margin-top:30px;margin:30px;" />
                     </div>
                     <div class="col-md-5 " style="margin-top:30px;margin:30px;">
                         <p class="mb-3">Price: ' . $data[4] . '</p>
@@ -131,7 +131,7 @@ include "session.php";
                         <p class="mb-2">Cargo Capacity: ' . $data[2] . '</p>
                     </div>
                     <div class="col-md-5 ">
-                        <button type="button" class="btn btn-outline-primary">Pesan</button>
+                        <a href="pesan.php?id_kapal=' . $data[0] . '"><button type="submit" class="btn btn-outline-primary">Pesan</button></a>
                     </div>
                 </div>';
       }
