@@ -87,3 +87,43 @@
   margin-top: 5rem;
   padding-bottom: 5rem;
 }
+
+/* Footer */
+footer {
+  background-color: #007bff;
+  color: #ffffff;
+  padding: 30px 0;
+ }
+ 
+ footer h4 {
+  color: #ffffff;
+  margin-bottom: 20px;
+ }
+ 
+ footer ul {
+  list-style: none;
+  padding: 0;
+ }
+ 
+ footer ul li a {
+  color: #ffffff;
+  text-decoration: none;
+  margin-bottom: 10px;
+  display: block;
+ }
+ 
+ footer ul li a:hover {
+  color: #9fd161;
+ }
+ 
+ .contact-info {
+  margin-bottom: 20px;
+ }
+ 
+ .contact-info p {
+  margin-bottom: 5px;
+ }
+ 
+ .contact-info i {
+  margin-right: 5px;
+ }
