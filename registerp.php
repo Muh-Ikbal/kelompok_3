@@ -1,10 +1,10 @@
 <?php
 include("koneksi.php");
 
-class UserManager
+class User
 {
-    public $conn;
-    private $password; // private property
+    protected $conn;
+    protected $password; // protected property
 
     public $username; // public property
     public $fullname; // public property
@@ -16,7 +16,10 @@ class UserManager
         $this->username = $username;
         $this->fullname = $fullname;
     }
+}
 
+class UserManager extends User
+{
     public function createUser()
     {
         $hashedPassword = password_hash($this->password, PASSWORD_BCRYPT);

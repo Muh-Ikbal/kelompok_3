@@ -1,8 +1,9 @@
 <?php
 include "koneksi.php";
-class JadwalManager
+
+class Ship
 {
-    private $conn;
+    protected $conn;
 
     public $nama_kapal;
     public $muatan;
@@ -23,12 +24,15 @@ class JadwalManager
         $this->harga = $harga;
         $this->gambar = $gambar;
     }
+}
 
+class JadwalManager extends Ship
+{
     public function tambahJadwal()
     {
         $gambar_tmp = $this->gambar["tmp_name"];
         move_uploaded_file($gambar_tmp, "gambar/" . $this->gambar["name"]);
-        
+
         $gambar = $this->gambar['name'];
         $query = "INSERT INTO tb_jadwal (`id_kapal`, `nama_kapal`, `muatan`, `tujuan`, `harga`, `kapal`) VALUES (NULL, '$this->nama_kapal', '$this->muatan', '$this->tujuan', '$this->harga', '$gambar')";
         $sql = mysqli_query($this->conn, $query);
@@ -73,7 +77,6 @@ class JadwalManager
     }
 }
 
-// Example usage:
 $jadwalManager = new JadwalManager($conn);
 
 if (isset($_POST['btnProses'])) {
