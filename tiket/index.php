@@ -40,7 +40,7 @@ include "session.php";
                 <hr class="dropdown-divider" />
               </li>
               <li class="dropdown-item">
-                <?php echo $data['fullname']; ?>
+                <?php echo $data['username']; ?>
               </li>
             </ul>
           </div>

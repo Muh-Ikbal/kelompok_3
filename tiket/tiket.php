@@ -1,9 +1,13 @@
 <!DOCTYPE html>
-<?php
-$con = mysqli_connect("localhost", "root", "", "db_kapal");
-
-?>
 <html lang="en">
+<?php
+include "koneksi.php";
+include "session.php";
+
+if (!isset($_SESSION['tickets'])) {
+    $_SESSION['tickets'] = array(); 
+}
+?>
 
 <head>
     <meta charset="utf-8" />
@@ -11,11 +15,11 @@ $con = mysqli_connect("localhost", "root", "", "db_kapal");
     <title>ONAV</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
-    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="../css/dashboard.css" />
 </head>
 
 <body>
-    <section class="background">
+    <section class="background2">
         <nav class="navbar navbar-expand-lg fixed-top bg-body-tertiary">
             <div class="container-fluid container">
                 <a class="navbar-brand text-white" href="#">ONAV</a>
@@ -36,9 +40,9 @@ $con = mysqli_connect("localhost", "root", "", "db_kapal");
                             </svg>
                         </a>
                         <?php
-                        $sql = "SELECT * FROM tb_user WHERE id_user=1";
-                        $query = mysqli_query($con, $sql);
-                        $data = mysqli_fetch_row($query);
+                        $sql = "SELECT * FROM tb_user WHERE username = '$_SESSION[username]'";
+                        $query = mysqli_query($conn, $sql);
+                        $data = mysqli_fetch_array($query);
                         ?>
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item" href="#">Log Out</a></li>
@@ -46,7 +50,7 @@ $con = mysqli_connect("localhost", "root", "", "db_kapal");
                                 <hr class="dropdown-divider" />
                             </li>
                             <li class="dropdown-item">User
-                                <?php echo $data[1] ?>
+                                <?php echo $data['username'] ?>
                             </li>
                         </ul>
                     </div>
@@ -54,19 +58,15 @@ $con = mysqli_connect("localhost", "root", "", "db_kapal");
             </div>
         </nav>
 
-        <div class="overlay">
+        <div class="overlay2">
             <h1>PESAN TIKET</h1>
         </div>
     </section>
-    <?php
-    $s = mysqli_query($con, "SELECT * FROM tb_user WHERE username = 'anto'");
-    $q = mysqli_fetch_array($s);
-    $id_user = $q['id_user'];
-    ?>
+
     <section class="container bg-light shadow mt-4">
         <div class="container">
             <div class="row">
-                <div class="">
+                <div class="col-md-6 p-5">
                     <div class="card-panel default">
                         <center>
                             <h1><svg xmlns="http://www.w3.org/2000/svg" width="60" height="52" fill="currentColor"
@@ -79,41 +79,31 @@ $con = mysqli_connect("localhost", "root", "", "db_kapal");
                 </div>
             </div>
         </div>
-        </div>
     </section>
-    <section class="container bg-light shadow mt-4">
-    <?php
-        $sql = mysqli_query($con, 'SELECT * FROM `tb_tiket` WHERE id_tiket="' . $id_user . '" ');
-        $counter = 0; 
-        while ($query = mysqli_fetch_array($sql)) {
-            if ($counter % 2 == 0) {
-                echo '<div class="row">';
-            }
-            ?>
-            <div class="col-md-6 p-5">
-                <div class="card-panel green">
-                    <b class="white-text">Code Booking</b>
-                    <p>
-                        <?= $query['kode_tiket']; ?>
-                    </p>
-                    <b class="white-text">Status</b>
-                    <p>
-                        <a href="" target="_blank"><button class="btn waves-effect blue"><i
-                                    class="ion-android-print"></i></button></a>
-                    </p>
-                </div>
+    
+
+    <?php foreach (array_chunk($_SESSION['tickets'], 2) as $chunk) { ?>
+        <section class="container grid bg-light shadow mt-4">
+            <div class="g-col-6 row">
+                <?php foreach ($chunk as $ticket) { ?>
+                    <div class="col-md-6 p-5">
+                        <div class="card-panel green">
+                            <b class="white-text">Code Booking</b>
+                            <p>
+                                <?= $ticket; ?>
+                            </p>
+                            <b class="white-text">Status</b>
+                            <p>
+                                <a href="" target="_blank"><button class="btn waves-effect blue"><i
+                                            class="ion-android-print"></i></button></a>
+                            </p>
+                        </div>
+                    </div>
+                <?php } ?>
             </div>
-            <?php
-            $counter++;
-            if ($counter % 2 == 0) {
-                echo '</div>';
-            }
-        }
-        if ($counter % 2 != 0) {
-            echo '</div>'; 
-        }
-        ?>
-    </section>
+        </section>
+    
+    <?php } ?>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"

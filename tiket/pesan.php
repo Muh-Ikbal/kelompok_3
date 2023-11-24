@@ -1,9 +1,18 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-
 <?php
 include "koneksi.php";
 include "session.php";
+
+if (!isset($_SESSION['tickets'])) {
+  $_SESSION['tickets'] = array(); // Inisialisasi array jika belum ada
+}
+
+if (isset($_POST['tiket'])) {
+  $newTicket = $_POST['tiket'];
+  array_push($_SESSION['tickets'], $newTicket);
+}
+
 ?>
 
 <head>
@@ -48,7 +57,7 @@ include "session.php";
                 <hr class="dropdown-divider" />
               </li>
               <li class="dropdown-item">User
-                <?php echo $data[1] ?>
+                <?php echo $data["username"] ?>
               </li>
             </ul>
           </div>
@@ -61,107 +70,108 @@ include "session.php";
     </div>
   </section>
   <main id="main">
-  <section class="container mesan">
-    <?php
-    $con = mysqli_connect("localhost", "root", "", "db_kapal");
-    if (isset($_GET['id_kapal'])){
-      $id = ($_GET['id_kapal']);
-      $sql = "SELECT * FROM `tb_jadwal` WHERE id_kapal = '$id'";
-      $query = mysqli_query($con, $sql);
-      $data = mysqli_fetch_array($query);
-      $tujuan = $data['tujuan'];
-      $harga = $data['harga'];
-    }
-  
-    ?>  
-    <h6 style="text-align: center;">FOR CUSTOMER</h6>
-    <form method="post" action="" class="bg-light shadow">
-      <input type="hidden" name="id_kapal" value="<?php echo $_GET['id_kapal']; ?>">
-      <div class="mb-3 mt-3">
-        <?php
-        $rang = range(1, 9);
-        shuffle($rang);
-        $c = implode($rang);
-        $res_code = $c;
-        ?>
-        <label for="tiket" class="form-label">Kode Tiket</label>
-        <input type="text" class="form-control" disabled id="tiket" name="tiket" value="<?= $res_code; ?>">
-      </div>
-      <div class="mb-3 mt-3">
-        <?php
-        include "koneksi.php";
-        $sql = "SELECT * FROM tb_user WHERE username = '$_SESSION[username]'";
-        $query = mysqli_query($conn, $sql);
+    <section class="container mesan">
+      <?php
+      $con = mysqli_connect("localhost", "root", "", "db_kapal");
+      if (isset($_GET['id_kapal'])){
+        $id = ($_GET['id_kapal']);
+        $sql = "SELECT * FROM `tb_jadwal` WHERE id_kapal = '$id'";
+        $query = mysqli_query($con, $sql);
         $data = mysqli_fetch_array($query);
-        ?>
-        <label for="nama" class="form-label">Nama Pembeli</label>
-        <input type="text" class="form-control" id="nama" name="nama" value="<?php $data['fullname']; ?>" >
-      </div>
-      <div class="mb-3 mt-3">
-        <label for="berangkat" class="form-label">Tanggal Keberangkatan</label>
-        <input type="date" class="form-control" id="berangkat" name="berangkat">
-      </div>
-      <div class="mb-3 mt-3">
-        <label for="tujuan" class="form-label">Tujuan</label>
-        <input type="text" disabled class="form-control" id="tujuan" name="tujuan" value="<?php echo $tujuan; ?>">
-      </div>
-      <div class="mb-3 mt-3">
-        <label for="harga" class="form-label">Harga Tiket (Rp.)</label>
-        <input type="number" class="form-control" disabled id="harga" name="harga" value="<?php echo $harga ?>">
-      </div>
-      <div class="mb-3 mt-3">
-        <label for="Ttiket" class="form-label">Total tiket</label>
-        <input type="number" class="form-control" id="Ttiket" name="Ttiket">
-      </div>
-      <div class="mb-3 mt-3" >
-        <button type="submit" class="btn btn-primary form-control" style="background-color: #027776; padding: 10px; text-align: center;" name="hitung" value="hitung">Hitung</button>
-      </div>
-      <div class="mb-3 mt-3">
-        <?php
-        include "koneksi.php";
-        $sql = "SELECT * FROM tb_user WHERE username = '$_SESSION[username]'";
-        $query = mysqli_query($conn, $sql);
-        $data = mysqli_fetch_array($query);
-
-        $id=$data['id_user'];
-
-        $sqlT = "SELECT * FROM tb_tiket WHERE id_user = '$id'";
-        $qry = mysqli_query($conn, $sqlT);
-        $tampil = mysqli_fetch_array($qry);
-        ?>
-        <label for="tHarga" class="form-label">Total harga</label>
-        <input type="number" class="form-control" id="tHarga" name="tHarga" value="<?php $tampil['harga_total'] ?>">
-      </div>
-      <div class="mb-3 mt-3">
-        <button type="submit" class="btn btn-primary form-control" style="background-color: #027776; padding: 10px; text-align: center;">Pesan</button>
-      </div>
-    </form>
-    <?php
-
-    include "koneksi.php";
-    include "session.php";
-    
-    $sql = "SELECT * FROM tb_user WHERE username = '$_SESSION[username]'";
-    $query = mysqli_query($conn, $sql);
-    $data = mysqli_fetch_array($query);
-    $id_user = $data['id_user'];
-
-    if (isset($_POST['hitung'])) {
-      $tiket = $_POST['tiket'];
-      $nama = $_POST['nama'];
-      $berangkat = $_POST['berangkat'];
-      $tujuan = $_POST['tujuan'];
-      $harga = $_POST['harga'];
-      $Ttiket = $_POST['Ttiket'];
-      
-      if ($_POST['hitung'] == 'hitung') {
-        $tHarga = $harga * $Ttiket;
-        $query = "INSERT INTO `tb_tiket` (`id_tiket`, `full_name`, `tgl_berangkat`, `tujuan`, `total_tiket`, `harga_total`, `id_user`, `kode_tiket`)VALUES (NULL, '$nama', '$berangkat', '$tujuan', '$Ttiket', '$tHarga', '$id_user', '$tiket')";
-        $sql = mysqli_query($conn, $query);
+        $tujuan = $data['tujuan'];
+        $harga = $data['harga'];
       }
+      ?>  
+      <h6 style="text-align: center;">FOR CUSTOMER</h6>
+      <form method="post" action="" class="bg-light shadow">
+        <input type="hidden" name="id_kapal" value="<?php echo $_GET['id_kapal']; ?>">
+        <div class="mb-3 mt-3">
+          <?php
+          $rang = range(1, 9);
+          shuffle($rang);
+          $c = implode($rang);
+          $res_code = $c;
+          ?>
+          <label for="tiket" class="form-label">Kode Tiket</label>
+          <input type="text" class="form-control" id="tiket" name="tiket" value="<?= $res_code; ?>">
+        </div>
+        <div class="mb-3 mt-3">
+          <?php
+          include "koneksi.php";
+          $sql = "SELECT * FROM tb_user WHERE username = '$_SESSION[username]'";
+          $query = mysqli_query($conn, $sql);
+          $data = mysqli_fetch_array($query);
+          ?>
+          <label for="nama" class="form-label">Nama Pembeli</label>
+          <input type="text" class="form-control" id="nama" name="nama" value="<?php echo $data['fullname']; ?>" >
+        </div>
+        <div class="mb-3 mt-3">
+          <label for="berangkat" class="form-label">Tanggal Keberangkatan</label>
+          <input type="date" class="form-control" id="berangkat" name="berangkat">
+        </div>
+        <div class="mb-3 mt-3">
+          <label for="tujuan" class="form-label">Tujuan</label>
+          <input type="text" class="form-control" id="tujuan" name="tujuan" value="<?php echo $tujuan; ?>">
+        </div>
+        <div class="mb-3 mt-3">
+          <label for="harga" class="form-label">Harga Tiket (Rp.)</label>
+          <input type="number" class="form-control" id="harga" name="harga" value="<?php echo $harga ?>">
+        </div>
+        <div class="mb-3 mt-3">
+          <label for="Ttiket" class="form-label">Total tiket</label>
+          <input type="number" class="form-control" id="Ttiket" name="Ttiket" oninput="calculateTotal()">
+        </div>
+        <div class="mb-3 mt-3" >
+        </div>
+        <div class="mb-3 mt-3">
+          <label for="tHarga" class="form-label">Total harga</label>
+          <input type="number" class="form-control" id="tHarga" name="tHarga" readonly>
+        </div>
+        <div class="mb-3 mt-3">
+          <a href="tiket.php">
+          <button type="submit" class="btn btn-primary form-control" style="background-color: #027776; padding: 10px; text-align: center;" name="hitung" value="hitung">Pesan</button></a>
+        </div>
+      </form>
+      <?php
+
+      include "koneksi.php";
+
+      $sql = "SELECT * FROM tb_user WHERE username = '$_SESSION[username]'";
+      $query = mysqli_query($conn, $sql);
+      $data = mysqli_fetch_array($query);
+      $id_user = $data['id_user'];
+
+      if (isset($_POST['hitung'])) {
+        $tiket = $_POST['tiket'];
+        $nama = $_POST['nama'];
+        $berangkat = $_POST['berangkat'];
+        $tujuan = $_POST['tujuan'];
+        $harga = $_POST['harga'];
+        $Ttiket = $_POST['Ttiket'];
+        
+        if ($_POST['hitung'] == 'hitung') {
+          $tHarga = $harga * $Ttiket;
+          $query = "INSERT INTO `tb_tiket` (`id_tiket`, `full_name`, `tgl_berangkat`, `tujuan`, `total_tiket`, `harga_total`, `fk_id_user`, `kode_tiket`) VALUES (NULL, '$nama', '$berangkat', '$tujuan', '$Ttiket', '$tHarga', '$id_user', '$tiket')";
+          $sql = mysqli_query($conn, $query);
+          if($sql){
+            echo "<script>alert('Data berhasil ditambahkan'); window.location='tiket.php';</script>";
+          } else {
+            echo "Error: " . $query . "<br>" . mysqli_error($conn);
+          }
+        }
+      }
+      ?>
+    </section>
+  </main>
+
+  <script>
+    function calculateTotal() {
+      var harga = parseFloat(document.getElementById('harga').value);
+      var Ttiket = parseFloat(document.getElementById('Ttiket').value);
+      var totalHarga = harga * Ttiket;
+      document.getElementById('tHarga').value = isNaN(totalHarga) ? '' : totalHarga;
     }
-    ?>
-  </section>
+  </script>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"

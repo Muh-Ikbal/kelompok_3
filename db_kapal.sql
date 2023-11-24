@@ -82,7 +82,7 @@ CREATE TABLE `tb_tiket` (
   `full_name` varchar(30) NOT NULL,
   `tgl_berangkat` date NOT NULL,
   `tujuan` varchar(30) NOT NULL,
-  `total_tiket` decimal(10,0) NOT NULL,
+  `total_tiket` int(10) NOT NULL,
   `harga_total` decimal(10,0) NOT NULL,
   `fk_id_user` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
