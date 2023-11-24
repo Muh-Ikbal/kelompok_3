@@ -92,10 +92,9 @@ if (!isset($_SESSION['tickets'])) {
                             <p>
                                 <?= $ticket; ?>
                             </p>
-                            <b class="white-text">Status</b>
                             <p>
-                                <a href="" target="_blank"><button class="btn waves-effect blue"><i
-                                            class="ion-android-print"></i></button></a>
+                                <a href="reservasi.php" target="_blank"><button class="btn btn-primary waves-effect blue"><i
+                                            class="ion-android-print" value="cek">cek</i></button></a>
                             </p>
                         </div>
                     </div>
