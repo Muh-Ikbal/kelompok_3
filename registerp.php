@@ -1,23 +1,28 @@
 <?php
 include("koneksi.php");
 
-class UserManager
+class User
 {
-    public $conn;
-    private $password; // private property
-
-    public $username; // public property
-    public $fullname; // public property
-
-    public function __construct($conn, $password, $username, $fullname)
+    protected $password;
+    public $username;
+    public $fullname;
+    public function __construct($password, $username, $fullname)
     {
         $this->password = $password;
         $this->username = $username;
         $this->fullname = $fullname;
     }
+}
 
 class UserManager extends User
 {
+    protected $conn;
+    public function __construct($conn, $password, $username, $fullname)
+    {
+        parent::__construct($password, $username, $fullname);
+        $this->conn = $conn;
+    }
+
     public function createUser()
     {
         $hashedPassword = password_hash($this->password, PASSWORD_BCRYPT);
