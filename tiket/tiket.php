@@ -5,7 +5,7 @@ include "koneksi.php";
 include "session.php";
 
 if (!isset($_SESSION['tickets'])) {
-    $_SESSION['tickets'] = array(); 
+    $_SESSION['tickets'] = array();
 }
 ?>
 
@@ -66,28 +66,29 @@ if (!isset($_SESSION['tickets'])) {
     <section class="container bg-light shadow mt-4">
         <div class="container">
             <div class="row">
-                <div class="col-md-6 p-5">
-                    <div class="card-panel default">
-                        <center>
-                            <h1><svg xmlns="http://www.w3.org/2000/svg" width="60" height="52" fill="currentColor"
-                                    class="bi bi-bag-fill" viewBox="0 0 16 16">
-                                    <path
-                                        d="M8 1a2.5 2.5 0 0 1 2.5 2.5V4h-5v-.5A2.5 2.5 0 0 1 8 1m3.5 3v-.5a3.5 3.5 0 1 0-7 0V4H1v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4z" />
-                                </svg> Keranjang Anda</h1>
-                        </center>
+                <div class="p-5 align-items-center justify-content-center">
+                    <div class="card-panel default text-center">
+                        <h1>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="60" height="52" fill="currentColor"
+                                class="bi bi-bag-fill" viewBox="0 0 16 16">
+                                <path
+                                    d="M8 1a2.5 2.5 0 0 1 2.5 2.5V4h-5v-.5A2.5 2.5 0 0 1 8 1m3.5 3v-.5a3.5 3.5 0 1 0-7 0V4H1v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4z" />
+                            </svg> Keranjang Anda
+                        </h1>
                     </div>
                 </div>
             </div>
         </div>
     </section>
-    
 
-    <?php foreach (array_chunk($_SESSION['tickets'], 2) as $chunk) { ?>
-        <section class="container grid bg-light shadow mt-4">
+
+
+    <?php foreach (array_chunk($_SESSION['tickets'], 2) as $keranjang) { ?>
+        <section class="container grid mt-4">
             <div class="g-col-6 row">
-                <?php foreach ($chunk as $ticket) { ?>
-                    <div class="col-md-6 p-5">
-                        <div class="card-panel green">
+                <?php foreach ($keranjang as $ticket) { ?>
+                    <div class="col-md-6 ">
+                        <div class="card-panel rounded-2 bg-success shadow p-4">
                             <b class="white-text">Code Booking</b>
                             <p>
                                 <?= $ticket; ?>
@@ -101,7 +102,7 @@ if (!isset($_SESSION['tickets'])) {
                 <?php } ?>
             </div>
         </section>
-    
+
     <?php } ?>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"

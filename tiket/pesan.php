@@ -3,6 +3,7 @@
 <?php
 include "koneksi.php";
 include "session.php";
+include "proses.php";
 
 if (!isset($_SESSION['tickets'])) {
   $_SESSION['tickets'] = array(); // Inisialisasi array jika belum ada
@@ -11,6 +12,19 @@ if (!isset($_SESSION['tickets'])) {
 if (isset($_POST['tiket'])) {
   $newTicket = $_POST['tiket'];
   array_push($_SESSION['tickets'], $newTicket);
+}
+$ticketManager = new TicketManager($conn); // Create an instance of the TicketManager class
+$id_user = $ticketManager->getUserId($_SESSION['username']); // Get user ID
+
+if (isset($_POST['hitung']) && $_POST['hitung'] == 'hitung') {
+  $tiket = $_POST['tiket'];
+  $nama = $_POST['nama'];
+  $berangkat = $_POST['berangkat'];
+  $tujuan = $_POST['tujuan'];
+  $harga = $_POST['harga'];
+  $Ttiket = $_POST['Ttiket'];
+
+  $ticketManager->bookTicket($tiket, $nama, $berangkat, $tujuan, $harga, $Ttiket, $id_user);
 }
 
 ?>
@@ -64,7 +78,7 @@ if (isset($_POST['tiket'])) {
         </div>
       </div>
     </nav>
-    
+
     <div class="overlay2">
       <h1>PESAN TIKET</h1>
     </div>
@@ -73,7 +87,7 @@ if (isset($_POST['tiket'])) {
     <section class="container mesan">
       <?php
       $con = mysqli_connect("localhost", "root", "", "db_kapal");
-      if (isset($_GET['id_kapal'])){
+      if (isset($_GET['id_kapal'])) {
         $id = ($_GET['id_kapal']);
         $sql = "SELECT * FROM `tb_jadwal` WHERE id_kapal = '$id'";
         $query = mysqli_query($con, $sql);
@@ -81,7 +95,7 @@ if (isset($_POST['tiket'])) {
         $tujuan = $data['tujuan'];
         $harga = $data['harga'];
       }
-      ?>  
+      ?>
       <h6 style="text-align: center;">FOR CUSTOMER</h6>
       <form method="post" action="" class="bg-light shadow">
         <input type="hidden" name="id_kapal" value="<?php echo $_GET['id_kapal']; ?>">
@@ -103,7 +117,7 @@ if (isset($_POST['tiket'])) {
           $data = mysqli_fetch_array($query);
           ?>
           <label for="nama" class="form-label">Nama Pembeli</label>
-          <input type="text" class="form-control" id="nama" name="nama" value="<?php echo $data['fullname']; ?>" >
+          <input type="text" class="form-control" id="nama" name="nama" value="<?php echo $data['fullname']; ?>">
         </div>
         <div class="mb-3 mt-3">
           <label for="berangkat" class="form-label">Tanggal Keberangkatan</label>
@@ -121,7 +135,7 @@ if (isset($_POST['tiket'])) {
           <label for="Ttiket" class="form-label">Total tiket</label>
           <input type="number" class="form-control" id="Ttiket" name="Ttiket" oninput="calculateTotal()">
         </div>
-        <div class="mb-3 mt-3" >
+        <div class="mb-3 mt-3">
         </div>
         <div class="mb-3 mt-3">
           <label for="tHarga" class="form-label">Total harga</label>
@@ -129,38 +143,11 @@ if (isset($_POST['tiket'])) {
         </div>
         <div class="mb-3 mt-3">
           <a href="tiket.php">
-          <button type="submit" class="btn btn-primary form-control" style="background-color: #027776; padding: 10px; text-align: center;" name="hitung" value="hitung">Pesan</button></a>
+            <button type="submit" class="btn btn-primary form-control"
+              style="background-color: #027776; padding: 10px; text-align: center;" name="hitung"
+              value="hitung">Pesan</button></a>
         </div>
       </form>
-      <?php
-
-      include "koneksi.php";
-
-      $sql = "SELECT * FROM tb_user WHERE username = '$_SESSION[username]'";
-      $query = mysqli_query($conn, $sql);
-      $data = mysqli_fetch_array($query);
-      $id_user = $data['id_user'];
-
-      if (isset($_POST['hitung'])) {
-        $tiket = $_POST['tiket'];
-        $nama = $_POST['nama'];
-        $berangkat = $_POST['berangkat'];
-        $tujuan = $_POST['tujuan'];
-        $harga = $_POST['harga'];
-        $Ttiket = $_POST['Ttiket'];
-        
-        if ($_POST['hitung'] == 'hitung') {
-          $tHarga = $harga * $Ttiket;
-          $query = "INSERT INTO `tb_tiket` (`id_tiket`, `full_name`, `tgl_berangkat`, `tujuan`, `total_tiket`, `harga_total`, `fk_id_user`, `kode_tiket`) VALUES (NULL, '$nama', '$berangkat', '$tujuan', '$Ttiket', '$tHarga', '$id_user', '$tiket')";
-          $sql = mysqli_query($conn, $query);
-          if($sql){
-            echo "<script>alert('Data berhasil ditambahkan'); window.location='tiket.php';</script>";
-          } else {
-            echo "Error: " . $query . "<br>" . mysqli_error($conn);
-          }
-        }
-      }
-      ?>
     </section>
   </main>
 
