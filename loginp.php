@@ -4,12 +4,10 @@ include("koneksi.php");
 class UserManager
 {
     private $conn;
-
     public function __construct($conn)
     {
         $this->conn = $conn;
     }
-
     public function getUserByUsername($username)
     {
         $query = mysqli_query($this->conn, "SELECT * FROM tb_user WHERE username = '$username'") or die(mysqli_error($this->conn));

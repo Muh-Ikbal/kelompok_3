@@ -94,24 +94,43 @@ include "session.php";
   <!-- end booking -->
 
   <?php
+  include("koneksi.php");
+
+  class Jadwal
+  {
+    protected $conn;
+    protected $tujuan;
+    protected $kapal;
+
+    public function __construct($conn, $tujuan, $kapal)
+    {
+      $this->conn = $conn;
+      $this->tujuan = $tujuan;
+      $this->kapal = $kapal;
+    }
+
+    public function cariJadwal()
+    {
+      $sql = "SELECT * FROM tb_jadwal";
+
+      if ($this->tujuan !== null && $this->kapal !== null) {
+        $sql .= " WHERE tujuan='$this->tujuan' AND kapal='$this->kapal'";
+      } elseif ($this->tujuan !== null) {
+        $sql .= " WHERE tujuan='$this->tujuan'";
+      } elseif ($this->kapal !== null) {
+        $sql .= " WHERE kapal='$this->kapal'";
+      }
+
+      return mysqli_query($this->conn, $sql);
+    }
+  }
 
   if (isset($_POST['cari']) && $_POST['cari'] == 'cari') {
-
     $Tujuan = isset($_POST["tujuan"]) ? $_POST["tujuan"] : null;
     $Kapal = isset($_POST["kapal"]) ? $_POST["kapal"] : null;
 
-    $sql = "SELECT * FROM tb_jadwal";
-
-    if ($Tujuan !== null && $Kapal !== null) {
-      $sql .= " WHERE tujuan='$Tujuan' AND kapal='$Kapal'";
-    } elseif ($Tujuan !== null) {
-      $sql .= " WHERE tujuan='$Tujuan'";
-    } elseif ($Kapal !== null) {
-      $sql .= " WHERE kapal='$Kapal'";
-    }
-
-    $query = mysqli_query($conn, $sql);
-
+    $jadwal = new Jadwal($conn, $Tujuan, $Kapal);
+    $query = $jadwal->cariJadwal();
     if (mysqli_num_rows($query) > 0) {
       echo '<section class="tiket">
             <div class="container-fluid mt-1 mb-3 p-4 bg-light">
